@@ -1,6 +1,5 @@
 extern crate rand;
 
-use rand::seq::SliceRandom;
 use std::cmp::{min, max};
 use std::collections::{HashMap, HashSet};
 
@@ -95,10 +94,12 @@ impl Graph {
 }
 
 fn make_spanning_tree(g: Graph) -> Graph {    
+    use rand::Rng;
     let mut h = Graph::new(g.size());
     let mut edges: Vec<(usize, usize)> = g.edges().iter().cloned().collect();
     let mut rng = rand::thread_rng();
-    edges.shuffle(&mut rng);    
+    rng.shuffle(&mut edges);
+     
     for (s, t) in edges {
         h.add_edge(s, t);
         if h.is_cyclic() {
